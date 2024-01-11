@@ -1,0 +1,8 @@
+# IDEs & Code Editors
+.vs/
+.vscode/
+
+# Build files
+**/bin/
+**/obj/
+**/out/
