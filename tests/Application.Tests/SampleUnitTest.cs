@@ -1,4 +1,4 @@
-namespace Ufrgs.ExatoLP.Infrastructure.Test;
+namespace Ufrgs.ExatoLP.Application.Tests;
 
 public class SampleUnitTest
 {
