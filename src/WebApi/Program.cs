@@ -1,19 +1,44 @@
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
+using Serilog.Formatting.Compact;
+using Ufrgs.ExatoLP.Infrastructure.Extensions;
+using Ufrgs.ExatoLP.WebApi.Constants;
+using Ufrgs.ExatoLP.WebApi.Extensions;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override(Namespaces.MicrosoftAspNetCore, LogEventLevel.Warning)
+    .Enrich.WithMachineName()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithExceptionDetails()
+    .WriteTo.Console(new CompactJsonFormatter())
+    .CreateLogger();
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder
+        .ConfigureOptions()
+        .ConfigureLoggingProvider();
+
+    builder.Services
+        .AddInfrastructureServices()
+        .AddWebApiServices();
+
+    var app = builder.Build();
+    
+    app.UseWebApiMiddlewares();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.Run();
+catch (Exception ex)
+{
+    if (ex.Source != Namespaces.MicrosoftEntityFrameworkCoreDesign)
+        Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
