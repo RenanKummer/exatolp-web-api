@@ -10,7 +10,7 @@
 #   - exatolp_application_password: Password for the 'application' user.
 #
 # Required files:
-#   - /exatolp/database/scripts/initialize.sql: SQL script to initialize the database.
+#   - /exatolp/scripts/database/initialize.sql: SQL script to initialize the database.
 ##
 
 # Check if env variables are set
@@ -21,13 +21,13 @@ if [[ -z "$POSTGRES_PASSWORD" || -z "$exatolp_admin_password" ||
 fi
 
 # Check if initialize.sql exists
-if [[ ! -f "/exatolp/database/scripts/initialize.sql" ]]; then
-  echo "Error: /exatolp/database/scripts/initialize.sql does not exist."
+if [[ ! -f "/exatolp/scripts/database/initialize.sql" ]]; then
+  echo "Error: /exatolp/scripts/database/initialize.sql does not exist."
   exit 1
 fi
 
 # Run psql command
-psql -U postgres -f /exatolp/database/scripts/initialize.sql
+psql -U postgres -f /exatolp/scripts/database/initialize.sql
 
 # Check the exit code of psql command
 if [[ $? -ne 0 ]]; then
