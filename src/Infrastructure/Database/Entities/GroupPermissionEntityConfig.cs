@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ufrgs.ExatoLP.Core.Entities;
+using Ufrgs.ExatoLP.Infrastructure.Database.Constants;
 
 namespace Ufrgs.ExatoLP.Infrastructure.Database.Entities;
 
@@ -12,15 +13,15 @@ public class GroupPermissionEntityConfig : EntityBaseConfig<GroupPermission>
 
         builder.HasOne(groupPermission => groupPermission.Group)
             .WithMany(group => group.GroupPermissions)
-            .HasForeignKey("group_id")
+            .HasForeignKey(PrimaryColumnNames.GroupId)
             .IsRequired();
 
         builder.HasOne(groupPermission => groupPermission.Permission)
             .WithMany()
-            .HasForeignKey("permission_id")
+            .HasForeignKey(PrimaryColumnNames.PermissionId)
             .IsRequired();
 
-        builder.HasKey("group_id", "permission_id");
+        builder.HasKey(PrimaryColumnNames.GroupId, PrimaryColumnNames.PermissionId);
 
         base.Configure(builder);
     }

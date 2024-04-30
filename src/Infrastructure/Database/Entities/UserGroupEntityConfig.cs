@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ufrgs.ExatoLP.Core.Entities;
+using Ufrgs.ExatoLP.Infrastructure.Database.Constants;
 
 namespace Ufrgs.ExatoLP.Infrastructure.Database.Entities;
 
@@ -12,15 +13,15 @@ public class UserGroupEntityConfig : EntityBaseConfig<UserGroup>
 
         builder.HasOne(userGroup => userGroup.User)
             .WithMany(user => user.UserGroups)
-            .HasForeignKey("user_id")
+            .HasForeignKey(PrimaryColumnNames.UserId)
             .IsRequired();
 
         builder.HasOne(userGroup => userGroup.Group)
             .WithMany(group => group.UserGroups)
-            .HasForeignKey("group_id")
+            .HasForeignKey(PrimaryColumnNames.GroupId)
             .IsRequired();
 
-        builder.HasKey("user_id", "group_id");
+        builder.HasKey(PrimaryColumnNames.UserId, PrimaryColumnNames.GroupId);
 
         base.Configure(builder);
     }

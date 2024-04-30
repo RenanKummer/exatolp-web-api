@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;
 using Ufrgs.ExatoLP.Core.Entities;
+using Ufrgs.ExatoLP.Infrastructure.Database.Constants;
 
 namespace Ufrgs.ExatoLP.Infrastructure.Database.Entities;
 
@@ -11,17 +12,18 @@ public class TermExampleEntityConfig : UpdatableEntityConfig<TermExample>
     {
         builder.ToTable("term_examples");
 
-        builder.Property(termExample => termExample.Id).HasColumnName("example_id").ValueGeneratedOnAdd();
-        builder.Property(termExample => termExample.ExampleSentence).HasColumnName("example_sentence").IsRequired();
+        builder.Property(termExample => termExample.Id)
+            .HasColumnName(PrimaryColumnNames.ExampleId)
+            .ValueGeneratedOnAdd();
 
-        var termForeignKey = new[] { "term_id", "domain_id" };
+        builder.Property(termExample => termExample.ExampleSentence).HasColumnName("example_sentence").IsRequired();
 
         builder.HasOne(termExample => termExample.Term)
             .WithMany(term => term.Examples)
-            .HasForeignKey(termForeignKey)
+            .HasForeignKey(PrimaryColumnNames.TermCompositeId)
             .IsRequired();
 
-        builder.HasKey([nameof(TermExample.Id), ..termForeignKey]);
+        builder.HasKey([nameof(TermExample.Id), ..PrimaryColumnNames.TermCompositeId]);
 
         base.Configure(builder);
     }
