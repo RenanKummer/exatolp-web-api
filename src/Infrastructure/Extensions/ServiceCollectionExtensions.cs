@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Ufrgs.ExatoLP.Infrastructure.Database.Configs;
+using Ufrgs.ExatoLP.Infrastructure.Database;
 
 namespace Ufrgs.ExatoLP.Infrastructure.Extensions;
 
