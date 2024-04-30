@@ -17,9 +17,6 @@ public class GroupEntityConfig : UpdatableEntityConfig<Group>
         builder.Property(group => group.Name).HasColumnName("group_name").IsRequired();
         builder.Property(group => group.Description).HasColumnName("group_description");
 
-        builder.Ignore(group => group.Users);
-        builder.Ignore(group => group.Permissions);
-
         base.Configure(builder);
     }
 }

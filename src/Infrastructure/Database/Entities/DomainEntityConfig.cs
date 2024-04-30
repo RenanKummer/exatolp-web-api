@@ -12,6 +12,7 @@ public class DomainEntityConfig : UpdatableEntityConfig<Domain>
 
         builder.HasKey(domain => domain.Id);
 
+        builder.Property(domain => domain.Id).HasColumnName("domain_id").ValueGeneratedOnAdd();
         builder.Property(domain => domain.Name).HasColumnName("domain_name").IsRequired();
         builder.Property(domain => domain.Description).HasColumnName("domain_description");
 
