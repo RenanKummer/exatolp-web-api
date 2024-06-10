@@ -1,6 +1,7 @@
 # IDEs & Code Editors
 .vs/
 .vscode/
+.idea/
 **/Properties/launchSettings.json
 
 # Build files
